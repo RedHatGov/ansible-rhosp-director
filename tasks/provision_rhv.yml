@@ -1,4 +1,6 @@
 - name: Create a RHV VM for Director
+  include_role:
+    name: RedHatGov.rhv_vm
   vars:
     rhv_vm_hostname: "{{ director_hostname }}.{{ domain }}"
     rhv_vm_template: rhosp-director-template
@@ -22,6 +24,4 @@
         nic_netmask: "{{ rhv_vm_public_netmask }}"
         nic_gateway: "{{ rhv_vm_public_gateway }}"
         nic_on_boot: true
-  include_role:
-    name: RedHatGov.rhv_vm
   tags: provision

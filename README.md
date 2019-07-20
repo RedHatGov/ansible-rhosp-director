@@ -56,71 +56,16 @@ Example Playbook
 
 ```yaml
 ---
-- hosts: director
-  tags: install
-  vars:
-    domain: "example.com"
-    dns_server_public: 1.1.1.1
-    director_hostname: director #Short hostname
-    director_ssh_user: root
-    director_ssh_pwd: redhat
-    director_public_ip: "192.168.0.4"
-    director_base_img: rhel-guest-image-7.qcow2 #Name of base image in /var/lib/libvirt/images on KVM hypervisor
-    director_os_disk_name: "{{ director_hostname }}"
-    director_nics:
-      - name: eth0
-        bootproto: static
-        onboot: yes
-        ip: "{{ director_public_ip }}"
-        prefix: "24"
-        gateway: "192.168.0.1"
-        dns_server: "{{ dns_server_public }}"
-        config: "--type bridge --source br1 --model virtio"
-    director_repos:
-      - rhel-7-server-rpms
-      - rhel-7-server-extras-rpms
-      - rhel-7-server-optional-rpms
-    director_packages:
-      - ipa-server
-      - ipa-server-dns
-    director_realm: "{{ domain | upper }}"
-    director_dm_pwd: "Redhat1993"
-    director_admin_pwd: "Redhat1993"
-    director_forward_ip: "{{ dns_server_public }}"
-    director_reverse_zone: "168.192.in-addr.arpa."
-    director_users:
-       - username: operator
-         password: redhat1234
-         display_name: "Operator"
-         first_name: Oper
-         last_name: Ator
-         email: "operator@redhat.com"
-         phone: "+18887334281"
-         title: "Systems Administrator"
-    director_dns_records:
-       - hostname: router
-         record_type: A
-         ip_address: 192.168.0.1
-         reverse_record: 1.0
-       - hostname: switch
-         record_type: A
-         ip_address: 192.168.0.2
-         reverse_record: 2.0
-       - hostname: kvm
-         record_type: A
-         ip_address: 192.168.0.3
-         reverse_record: 3.0
-  tasks:
-    - name: Install director
-      include_role:
-        name: director
-      tags: install
+  - hosts: director
+    tasks:
+      - name: Install Director
+        include_role:
+          name: director
 
-    - name: Configure director
-      include_role:
-        name: director
-        tasks_from: post_config
-      tags: post-config
+      - name: Configure Director
+        include_role:
+          name: director
+          tasks_from: post_config
 ```
 
 License

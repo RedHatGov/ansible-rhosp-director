@@ -1,5 +1,6 @@
 - name: Register to RHSM
   vars:
+    register_rhn: "{{ director_register_rhn }}"
     rhsm_consumer_name: "{{ director_hostname }}.{{ domain }}"
     rhsm_repos: "{{ director_repos }}"
   include_role:

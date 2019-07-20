@@ -22,6 +22,6 @@
         nic_netmask: "{{ rhv_vm_public_netmask }}"
         nic_gateway: "{{ rhv_vm_public_gateway }}"
         nic_on_boot: true
-    include_role:
-      name: RedHatGov.rhv_vm
-    tags: provision
+  include_role:
+    name: RedHatGov.rhv_vm
+  tags: provision

@@ -63,6 +63,7 @@ networks:
     dhcpEnd: 192.168.103.250
 
 director_hostname: director
+director_ssh_user: root
 director_ssh_pub_key: "ssh-rsa ..... root@localhost"
 director_ssh_pwd: p@ssw0rd
 director_vcpus: 8

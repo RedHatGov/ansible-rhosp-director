@@ -67,9 +67,6 @@ director_ssh_user: root
 director_ssh_pub_key: "ssh-rsa ..... root@localhost"
 director_ssh_pwd: p@ssw0rd
 director_register_rhn: true
-director_vcpus: 8
-#RAM definition will vary depending on infrastructure provider
-director_ram: 22GiB
 director_public_ip: []
 # stack user gets created and will be used for all RHOSP actions on undercloud
 director_stack_user_pwd: []
@@ -127,21 +124,21 @@ director_provisioning_interface_mtu: 1500
 director_provisioning_ip: 192.168.2.5/24
 # Network CIDR for the Neutron-managed network for Overcloud
 # instances. This should be the subnet used for PXE booting
-director_provisioning_network_cidr: "{{ network.provisioning.cidr }}"
+director_provisioning_network_cidr: "{{ networks.provisioning.cidr }}"
 # Network gateway for the Neutron-managed network for Overcloud
 # instances. This should match the local_ip above when using masquerading
-director_provisioning_network_gateway: "{{ network.provisioning.gateway }}"
+director_provisioning_network_gateway: "{{ networks.provisioning.gateway }}"
 # Virtual IP address to use for the admin endpoints of Undercloud services.
 director_admin_apis_vip: "{{ director_provisioning_ip | ipaddr('address') }}"
 # Temporary IP range that will be given to nodes during the discovery
 # process.  Should not overlap with the range defined by dhcp_start
 # and dhcp_end, but should be in the same network
-director_inspection_dhcp_start: "{{ network.provisioning.introspectionDhcpStart }}"
-director_inspection_dhcp_end: "{{ network.provisioning.introspectionDhcpEnd }}"
+director_inspection_dhcp_start: "{{ networks.provisioning.introspectionDhcpStart }}"
+director_inspection_dhcp_end: "{{ networks.provisioning.introspectionDhcpEnd }}"
 # Start of DHCP allocation range for PXE and DHCP of Overcloud instances
-director_deploy_dhcp_start: "{{ network.provisioning.dhcpStart }}"
+director_deploy_dhcp_start: "{{ networks.provisioning.dhcpStart }}"
 # End of DHCP allocation range for PXE and DHCP of Overcloud instances
-director_deploy_dhcp_end: "{{ network.provisioning.dhcpEnd }}"
+director_deploy_dhcp_end: "{{ networks.provisioning.dhcpEnd }}"
 # Defines whether to wipe the hard drive of overcloud nodes between
 # deployments and after the introspection
 director_clean_nodes: true
@@ -152,3 +149,7 @@ director_admin_password: p@ssw0rd
 #rhv_vm_auth_url: https://engine.example.com/ovirt-engine/api
 #rhv_vm_auth_username: admin@internal
 #rhv_vm_auth_password: p@ssw0rd
+director_vcpus: 8
+#RAM definition will vary depending on infrastructure provider
+director_ram: 22GiB #For oVirt/RHV
+#director_ram: 22584 #For RHEL+KVM

@@ -56,16 +56,16 @@ Example Playbook
 
 ```yaml
 ---
-  - hosts: director
-    tasks:
-      - name: Install Director
-        include_role:
-          name: director
+- hosts: director
+  tasks:
+  - name: Install Director
+    include_role:
+      name: director
 
-      - name: Configure Director
-        include_role:
-          name: director
-          tasks_from: post_config
+  - name: Configure Director
+    include_role:
+      name: director
+      tasks_from: post_config
 ```
 
 License

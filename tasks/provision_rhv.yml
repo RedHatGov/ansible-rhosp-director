@@ -35,6 +35,5 @@
     host: "{{ director_external_ip }}"
     port: 22
     state: started
-    delay: 10
     connect_timeout: 300
     sleep: 5

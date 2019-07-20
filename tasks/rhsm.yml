@@ -1,10 +1,10 @@
 - name: Register to RHSM
+  include_role:
+    name: RedHatGov.rhsm
   vars:
     register_rhn: "{{ director_register_rhn }}"
     rhsm_consumer_name: "{{ director_hostname }}.{{ domain }}"
     rhsm_repos: "{{ director_repos }}"
-  include_role:
-    name: RedHatGov.rhsm
   when: director_register_rhn
   tags: install
 

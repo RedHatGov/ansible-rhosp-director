@@ -4,6 +4,7 @@
   vars:
     rhv_vm_hostname: "{{ director_hostname }}.{{ domain }}"
     rhv_vm_template: rhosp-director-template
+    rhvm_vm_sockets: 2
     rhv_vm_vcpus: "{{ director_vcpus }}"
     rhv_vm_ram: "{{ director_ram }}"
     rhv_vm_ssh_pub_key: "{{ director_ssh_pub_key }}"

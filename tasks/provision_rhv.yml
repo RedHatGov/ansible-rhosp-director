@@ -1,27 +1,27 @@
 - name: Create a RHV VM for Director
-    vars:
-      rhv_vm_hostname: "{{ director_hostname }}.{{ domain }}"
-      rhv_vm_template: rhosp-director-template
-      rhv_vm_vcpus: "{{ director_vcpus }}"
-      rhv_vm_ram: "{{ director_ram }}"
-      rhv_vm_ssh_pub_key: "{{ director_ssh_pub_key }}"
-      rhv_vm_ssh_pwd: "{{ director_ssh_pwd }}"
-      rhv_vm_public_nic_name: eth1
-      rhv_vm_public_ip: "{{ director_external_ip }}"
-      rhv_vm_public_netmask: "{{ networks.external.cidr | ipaddr('netmask') }}"
-      rhv_vm_public_gateway: "{{ networks.external.gateway }}"
-      rhv_vm_cloud_init_nics:
-        - nic_name: eth0
-          nic_boot_protocol: static
-          nic_ip_address: "{{ director_provisioning_ip | ipaddr('address') }}"
-          nic_netmask: "{{ networks.provisioning.cidr | ipaddr('netmask') }}"
-          nic_on_boot: true
-        - nic_name: "{{ rhv_vm_public_nic_name }}"
-          nic_boot_protocol: static
-          nic_ip_address: "{{ rhv_vm_public_ip }}"
-          nic_netmask: "{{ rhv_vm_public_netmask }}"
-          nic_gateway: "{{ rhv_vm_public_gateway }}"
-          nic_on_boot: true
+  vars:
+    rhv_vm_hostname: "{{ director_hostname }}.{{ domain }}"
+    rhv_vm_template: rhosp-director-template
+    rhv_vm_vcpus: "{{ director_vcpus }}"
+    rhv_vm_ram: "{{ director_ram }}"
+    rhv_vm_ssh_pub_key: "{{ director_ssh_pub_key }}"
+    rhv_vm_ssh_pwd: "{{ director_ssh_pwd }}"
+    rhv_vm_public_nic_name: eth1
+    rhv_vm_public_ip: "{{ director_external_ip }}"
+    rhv_vm_public_netmask: "{{ networks.external.cidr | ipaddr('netmask') }}"
+    rhv_vm_public_gateway: "{{ networks.external.gateway }}"
+    rhv_vm_cloud_init_nics:
+      - nic_name: "{{ director_provisioning_interface }}"
+        nic_boot_protocol: static
+        nic_ip_address: "{{ director_provisioning_ip | ipaddr('address') }}"
+        nic_netmask: "{{ networks.provisioning.cidr | ipaddr('netmask') }}"
+        nic_on_boot: true
+      - nic_name: "{{ rhv_vm_public_nic_name }}"
+        nic_boot_protocol: static
+        nic_ip_address: "{{ rhv_vm_public_ip }}"
+        nic_netmask: "{{ rhv_vm_public_netmask }}"
+        nic_gateway: "{{ rhv_vm_public_gateway }}"
+        nic_on_boot: true
     include_role:
       name: RedHatGov.rhv_vm
     tags: provision

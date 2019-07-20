@@ -63,6 +63,11 @@ networks:
     dhcpEnd: 192.168.103.250
 
 director_hostname: director
+director_ssh_pub_key: "ssh-rsa ..... root@localhost"
+director_ssh_pwd: p@ssw0rd
+director_vcpus: 8
+#RAM definition will vary depending on infrastructure provider
+director_ram: 22GiB
 director_external_ip: []
 # stack user gets created and will be used for all RHOSP actions on undercloud
 director_stack_user_pwd: []
@@ -140,3 +145,8 @@ director_deploy_dhcp_end: "{{ network.provisioning.dhcpEnd }}"
 director_clean_nodes: true
 # Set admin password for undercloud
 director_admin_password: p@ssw0rd
+
+# IF provisioning director VM on RHV
+#rhv_vm_auth_url: https://engine.example.com/ovirt-engine/api
+#rhv_vm_auth_username: admin@internal
+#rhv_vm_auth_password: p@ssw0rd

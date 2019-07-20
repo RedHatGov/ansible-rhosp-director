@@ -136,9 +136,9 @@ director_admin_apis_vip: "{{ director_provisioning_ip | ipaddr('address') }}"
 director_inspection_dhcp_start: "{{ networks.provisioning.introspectionDhcpStart }}"
 director_inspection_dhcp_end: "{{ networks.provisioning.introspectionDhcpEnd }}"
 # Start of DHCP allocation range for PXE and DHCP of Overcloud instances
-director_deploy_dhcp_start: "{{ networks.provisioning.dhcpStart }}"
+director_deploy_dhcp_start: "{{ networks.provisioning.deployDhcpStart }}"
 # End of DHCP allocation range for PXE and DHCP of Overcloud instances
-director_deploy_dhcp_end: "{{ networks.provisioning.dhcpEnd }}"
+director_deploy_dhcp_end: "{{ networks.provisioning.deployDhcpEnd }}"
 # Defines whether to wipe the hard drive of overcloud nodes between
 # deployments and after the introspection
 director_clean_nodes: true

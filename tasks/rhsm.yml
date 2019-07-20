@@ -1,0 +1,29 @@
+- name: Register to RHSM
+  vars:
+    rhsm_consumer_name: "{{ director_hostname }}.{{ domain }}"
+    rhsm_repos: "{{ director_repos }}"
+  include_role:
+    name: RedHatGov.rhsm
+  when: director_register_rhn
+  tags: install
+
+- name: Unregister system from RHN
+  include_role:
+    name: RedHatGov.rhsm
+    tasks_from: unregister
+  when: not director_register_rhn
+  tags: install
+
+- name: enable the needed rhel repositories
+  yum_repository:
+    name: "{{ item }}"
+    description: "{{ item }}"
+    baseurl: "http://{{ content_public_ip }}/repos/{{ item }}"
+    gpgcheck: no
+    enabled: yes
+    file: rhn-local
+    state: present
+  with_items:
+    - "{{ director_repos }}"
+  when: not director_register_rhn
+  tags: install

@@ -24,7 +24,7 @@ Role Variables
 | `director_ssh_pub_key` | :x:      | ```see defaults/main.yml``` | The ssh public key to connect to director |
 | `director_ssh_pwd` | :x:      | ```p@ssw0rd``` | The password to use for ssh connections to director |
 | `director_register_rhn` | :x:      | ```true``` | Boolean for whether to subscribe director to Red Hat Network |
-| `director_external_ip` | :heavy_check_mark:      |  | The IP for director on the external OpenStack network |
+| `director_public_ip` | :heavy_check_mark:      |  | The IP for director on the external OpenStack network |
 | `director_stack_user_pwd` | :heavy_check_mark:      |  | The default password to use for the stack user on director |
 | `director_repos` | :x:      | ```see defaults/main.yml``` | Dictionary of Repos to enable for director |
 | `director_packages` | :x:      | ```see defaults/main.yml``` | Dictionary of Packages to create for director |

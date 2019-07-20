@@ -70,7 +70,7 @@ director_register_rhn: true
 director_vcpus: 8
 #RAM definition will vary depending on infrastructure provider
 director_ram: 22GiB
-director_external_ip: []
+director_public_ip: []
 # stack user gets created and will be used for all RHOSP actions on undercloud
 director_stack_user_pwd: []
 director_repos:

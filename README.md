@@ -60,11 +60,11 @@ Example Playbook
   tasks:
   - name: Install Director
     include_role:
-      name: director
+      name: RedHatGov.director
 
   - name: Configure Director
     include_role:
-      name: director
+      name: RedHatGov.director
       tasks_from: post_config
 ```
 

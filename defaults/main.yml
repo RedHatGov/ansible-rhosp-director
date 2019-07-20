@@ -3,14 +3,67 @@
 domain: example.com
 dns_server_local: []
 ntp_server: time.nist.gov
-versions: []
-networks: []
+versions:
+  rhosp: 13
+  ceph: 3
+  satellite: 6.3
+  ocp: 3.11
+  cfme: 5.9
+  ansible: 2.7
+networks:
+  external:
+    name: external
+    cidr: 192.168.0.0/23
+    defroute: true
+    gateway: 192.168.0.1
+    vlan: 1
+    dhcpStart: 192.168.1.40
+    dhcpEnd: 192.168.1.69
+    fipStart: 192.168.1.70
+    fipEnd: 192.168.1.199
+  provisioning:
+    name: provisioning
+    cidr: 192.168.2.0/24
+    defroute: false
+    gateway: 192.168.2.1
+    vlan: 2
+    introspectionDhcpStart: 192.168.2.30
+    introspectionDhcpEnd: 192.168.2.49
+    deployDhcpStart: 192.168.2.50
+    deployDhcpEnd: 192.168.2.69
+    providerDhcpStart: 192.168.2.70
+    providerDhcpEnd: 192.168.2.99
+  internal_api:
+    name: internal_api
+    cidr: 192.168.100.0/24
+    defroute: false
+    vlan: 900
+    dhcpStart: 192.168.100.40
+    dhcpEnd: 192.168.100.250
+  tenant:
+    name: tenant
+    cidr: 192.168.101.0/24
+    defroute: false
+    vlan: 901
+    dhcpStart: 192.168.101.40
+    dhcpEnd: 192.168.101.250
+  storage:
+    name: storage
+    cidr: 192.168.102.0/24
+    defroute: false
+    vlan: 902
+    dhcpStart: 192.168.102.40
+    dhcpEnd: 192.168.102.250
+  storage_mgmt:
+    name: storage_mgmt
+    cidr: 192.168.103.0/24
+    defroute: false
+    vlan: 903
+    dhcpStart: 192.168.103.40
+    dhcpEnd: 192.168.103.250
 
 director_hostname: director
 director_external_ip: []
-director_poweroff: true
-director_bootdev: network
-director_validation_errors: []
 # stack user gets created and will be used for all RHOSP actions on undercloud
 director_stack_user_pwd: []
 director_repos:
@@ -37,12 +90,19 @@ director_packages:
   - 'python-tripleoclient'
   - 'rhosp-director-images'
   - 'rhosp-director-images-ipa'
-director_optional_docker_services: []
+director_optional_docker_services:
+  - /usr/share/openstack-tripleo-heat-templates/environments/services/barbican.yaml
+  - /usr/share/openstack-tripleo-heat-templates/environments/barbican-backend-simple-crypto.yaml
+  - /usr/share/openstack-tripleo-heat-templates/environments/services/octavia.yaml
+  - /usr/share/openstack-tripleo-heat-templates/environments/services/sahara.yaml
+  - /usr/share/openstack-tripleo-heat-templates/environments/ceph-ansible/ceph-ansible.yaml
+  - /usr/share/openstack-tripleo-heat-templates/environments/ceph-ansible/ceph-rgw.yaml
+  - /usr/share/openstack-tripleo-heat-templates/environments/cinder-backup.yaml
 director_upstream_registry: registry.access.redhat.com
 director_ceph_enabled: true
 director_ceph_namespace: "{{ director_upstream_registry }}/rhceph"
 director_ceph_image: rhceph-3-rhel7
-director_ceph_tag: "{version}-{release}"
+director_ceph_tag: latest
 director_ceph_containerized: true
 # All variables for undercloud.conf
 director_cloud_domain: "{{ domain }}"
@@ -56,26 +116,27 @@ director_provisioning_interface_mtu: 1500
 # portion of the value will be assigned to the network interface
 # defined by local_interface, with the netmask defined by the prefix
 # portion of the value
-director_provisioning_ip: [] #NOTE: This should be in cidr notation (192.168.2.5/24)
+# NOTE: This should be in cidr notation
+director_provisioning_ip: 192.168.2.5/24
 # Network CIDR for the Neutron-managed network for Overcloud
 # instances. This should be the subnet used for PXE booting
-director_provisioning_network_cidr: []
+director_provisioning_network_cidr: "{{ network.provisioning.cidr }}"
 # Network gateway for the Neutron-managed network for Overcloud
 # instances. This should match the local_ip above when using masquerading
-director_provisioning_network_gateway: []
+director_provisioning_network_gateway: "{{ network.provisioning.gateway }}"
 # Virtual IP address to use for the admin endpoints of Undercloud services.
-director_admin_apis_vip: []
+director_admin_apis_vip: "{{ director_provisioning_ip | ipaddr('address') }}"
 # Temporary IP range that will be given to nodes during the discovery
 # process.  Should not overlap with the range defined by dhcp_start
 # and dhcp_end, but should be in the same network
-director_inspection_dhcp_start: []
-director_inspection_dhcp_end: []
+director_inspection_dhcp_start: "{{ network.provisioning.introspectionDhcpStart }}"
+director_inspection_dhcp_end: "{{ network.provisioning.introspectionDhcpEnd }}"
 # Start of DHCP allocation range for PXE and DHCP of Overcloud instances
-director_deploy_dhcp_start: []
+director_deploy_dhcp_start: "{{ network.provisioning.dhcpStart }}"
 # End of DHCP allocation range for PXE and DHCP of Overcloud instances
-director_deploy_dhcp_end: []
+director_deploy_dhcp_end: "{{ network.provisioning.dhcpEnd }}"
 # Defines whether to wipe the hard drive of overcloud nodes between
 # deployments and after the introspection
 director_clean_nodes: true
 # Set admin password for undercloud
-director_admin_password: []
+director_admin_password: p@ssw0rd

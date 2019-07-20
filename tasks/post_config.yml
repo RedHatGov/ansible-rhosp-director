@@ -133,7 +133,7 @@
       when: disconnected is defined and disconnected.docker is defined and versions.rhosp == 13
 
     - name: Push local images to local repository
-      shell: for t in $(sudo docker images | sed '1d' | awk '/{{ rhosp_director.provisioning_ip | ipaddr('address') }}/ {print $1":"$2}'); do sudo docker push $t; done
+      shell: for t in $(sudo docker images | sed '1d' | awk '/{{ director_provisioning_ip | ipaddr('address') }}/ {print $1":"$2}'); do sudo docker push $t; done
       tags: configure
       when: disconnected is defined and disconnected.docker is defined and versions.rhosp == 13
 

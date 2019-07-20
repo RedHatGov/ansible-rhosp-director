@@ -25,3 +25,16 @@
         nic_gateway: "{{ rhv_vm_public_gateway }}"
         nic_on_boot: true
   tags: provision
+
+- name: Pause for 30 seconds
+  pause:
+    seconds: 30
+
+- name: Waiting for Director ssh to come online
+  wait_for:
+    host: "{{ director_public_ip }}"
+    port: 22
+    state: started
+    delay: 10
+    connect_timeout: 300
+    sleep: 5

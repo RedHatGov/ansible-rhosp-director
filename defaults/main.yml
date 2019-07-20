@@ -1,7 +1,7 @@
 ---
 # defaults file for director
 domain: example.com
-dns_server_local: []
+dns_server_local: 192.168.0.4
 ntp_server: time.nist.gov
 versions:
   rhosp: 13

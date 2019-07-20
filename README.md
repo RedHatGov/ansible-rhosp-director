@@ -15,7 +15,7 @@ Role Variables
 | Variable        | Required | Default  | Description                                                                                                                                                                                                                                     |
 | --------------- | -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `domain` | :x:      | ```example.com``` | The domain for the environment |
-| `dns_server_local` | :heavy_check_mark:      |  | The default local DNS server to use |
+| `dns_server_local` | :x:      | ```1.1.1.1``` | The default local DNS server to use |
 | `ntp_server` | :x:      | ```0.pool.ntp.org``` | The default NTP server to use |
 | `versions` | :x:      | ```see defaults/main.yml``` | A dictionary of Red Hat software versions |
 | `networks` | :x:      | ```see defaults/main.yml``` | A dictionary of local network vlans to use for the RHOSP deployment |

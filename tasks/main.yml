@@ -119,6 +119,9 @@
     mode: 0664
   tags: install
 
+
+
+
 - name: set undercloud.conf variables in the default section
   ini_file:
     dest: /home/stack/undercloud.conf
@@ -128,41 +131,64 @@
     mode: 0644
     backup: no
   with_items:
-    - { key: image_path, value: "/home/stack/images" }
     - { key: undercloud_hostname, value: "{{ director_hostname }}.{{ domain }}" }
-    - { key: overcloud_domain_name, value: "{{ director_cloud_domain }}" }
     - { key: local_ip, value: "{{ director_provisioning_ip }}" }
     - { key: local_interface, value: "{{ director_provisioning_interface }}" }
     - { key: local_mtu, value: "{{ director_provisioning_interface_mtu }}" }
-    - { key: undercloud_public_vip, value: "{{ director_public_ip }}" }
-    - { key: undercloud_public_host, value: "{{ director_public_ip }}" }
-    - { key: undercloud_admin_vip, value: "{{ director_admin_apis_vip }}" }
-    - { key: undercloud_admin_host, value: "{{ director_admin_apis_vip }}" }
     - { key: generate_service_certificate, value: "{{ director_generate_service_certificate | default('true') }}" }
     - { key: certificate_generation_ca, value: "local" }
     - { key: undercloud_service_certificate, value: ""}
     - { key: service_principal, value: ""}
-    - { key: network_cidr, value: "{{ director_provisioning_network_cidr }}" }
-    - { key: network_gateway, value: "{{ director_provisioning_network_gateway }}" }
     - { key: masquerade_network, value: "{{ director_provisioning_network_cidr }}" }
-    - { key: dhcp_start, value: "{{ director_deploy_dhcp_start }}" }
-    - { key: dhcp_end, value: "{{ director_deploy_dhcp_end }}" }
     - { key: inspection_interface, value: "br-ctlplane"}
-    - { key: inspection_iprange, value: "{{ director_inspection_dhcp_start }},{{ director_inspection_dhcp_end }}" }
     - { key: inspection_runbench, value: "false"}
     - { key: inspection_enable_uefi, value: "true"}
     - { key: undercloud_debug, value: "false"}
     - { key: enable_tempest, value: "true"}
     - { key: enable_validations, value: "true"}
-    - { key: enable_mistral, value: "true"}
-    - { key: enable_zaqar, value: "true"}
     - { key: enable_telemetry, value: "true"}
     - { key: enable_ui, value: "true"}
     - { key: ipxe_enabled, value: "true"}
-    - { key: store_events, value: "true" }
     - { key: clean_nodes, value: "{{ director_clean_nodes }}"}
-    - { key: undercloud_name_servers, value: "{{ dns_server_local }}"}
     - { key: undercloud_ntp_servers, value: "{{ director_ntp_servers }}"}
+  tags: install
+
+- name: set undercloud.conf variables specific to RHOSP 10
+  ini_file:
+    dest: /home/stack/undercloud.conf
+    section: DEFAULT
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"
+    mode: 0644
+    backup: no
+  with_items:
+    - { key: image_path, value: "/home/stack/images" }
+    - { key: undercloud_public_vip, value: "{{ director_public_ip }}" }
+    - { key: undercloud_admin_vip, value: "{{ director_admin_apis_vip }}" }
+    - { key: network_cidr, value: "{{ director_provisioning_network_cidr }}" }
+    - { key: network_gateway, value: "{{ director_provisioning_network_gateway }}" }
+    - { key: dhcp_start, value: "{{ director_deploy_dhcp_start }}" }
+    - { key: dhcp_end, value: "{{ director_deploy_dhcp_end }}" }
+    - { key: inspection_iprange, value: "{{ director_inspection_dhcp_start }},{{ director_inspection_dhcp_end }}" }
+    - { key: enable_mistral, value: "true"}
+    - { key: enable_zaqar, value: "true"}
+    - { key: store_events, value: "true" }
+  when: versions.rhosp == 10
+  tags: install
+
+- name: set undercloud.conf variables specific to RHOSP 10
+  ini_file:
+    dest: /home/stack/undercloud.conf
+    section: DEFAULT
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"
+    mode: 0644
+    backup: no
+  with_items:
+    - { key: overcloud_domain_name, value: "{{ director_cloud_domain }}" }
+    - { key: undercloud_public_host, value: "{{ director_public_ip }}" }
+    - { key: undercloud_admin_host, value: "{{ director_admin_apis_vip }}" }
+  when: versions.rhosp == 13
   tags: install
 
 - name: set undercloud.conf variables in the auth section

@@ -9,7 +9,7 @@
   lineinfile:
     dest: /etc/hosts
     state: present
-    regexp: "^{{ inventory_hostname }}"
+    regexp: "^{{ director_public_ip }}"
     line: "{{ director_public_ip }} {{ director_hostname }}.{{ domain }} {{ director_hostname }}"
   tags: prep
 

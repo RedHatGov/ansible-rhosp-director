@@ -149,7 +149,8 @@ director_admin_password: p@ssw0rd
 #rhv_vm_auth_url: https://engine.example.com/ovirt-engine/api
 #rhv_vm_auth_username: admin@internal
 #rhv_vm_auth_password: p@ssw0rd
-director_vcpus: 8
+director_vsockets: 2
+director_vcpus: 4
 #RAM definition will vary depending on infrastructure provider
 director_ram: 22GiB #For oVirt/RHV
 #director_ram: 22584 #For RHEL+KVM

@@ -176,7 +176,7 @@
   when: versions.rhosp == 10
   tags: install
 
-- name: set undercloud.conf variables specific to RHOSP 10
+- name: set undercloud.conf variables specific to RHOSP 13
   ini_file:
     dest: /home/stack/undercloud.conf
     section: DEFAULT
@@ -188,6 +188,7 @@
     - { key: overcloud_domain_name, value: "{{ director_cloud_domain }}" }
     - { key: undercloud_public_host, value: "{{ director_public_ip }}" }
     - { key: undercloud_admin_host, value: "{{ director_admin_apis_vip }}" }
+    - { key: undercloud_nameservers, value: "{{ dns_server_local }}" }
   when: versions.rhosp == 13
   tags: install
 

@@ -94,6 +94,7 @@ director_packages:
   - 'python-tripleoclient'
   - 'rhosp-director-images'
   - 'rhosp-director-images-ipa'
+  - 'python-ovirt-engine-sdk4'
 director_optional_docker_services:
   - /usr/share/openstack-tripleo-heat-templates/environments/services/barbican.yaml
   - /usr/share/openstack-tripleo-heat-templates/environments/barbican-backend-simple-crypto.yaml

@@ -189,6 +189,7 @@
     - { key: undercloud_public_host, value: "{{ director_public_ip }}" }
     - { key: undercloud_admin_host, value: "{{ director_admin_apis_vip }}" }
     - { key: undercloud_nameservers, value: "{{ dns_server_local }}" }
+    - { key: enabled_hardware_types, value: "ipmi,redfish,ilo,idrac,staging-ovirt" }
   when: versions.rhosp == 13
   tags: install
 

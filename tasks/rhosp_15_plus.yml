@@ -136,7 +136,6 @@
     - { key: certificate_generation_ca, value: "local" }
     - { key: undercloud_service_certificate, value: ""}
     - { key: service_principal, value: ""}
-    - { key: masquerade_network, value: "{{ director_provisioning_network_cidr }}" }
     - { key: inspection_interface, value: "br-ctlplane"}
     - { key: inspection_runbench, value: "false"}
     - { key: undercloud_debug, value: "false"}

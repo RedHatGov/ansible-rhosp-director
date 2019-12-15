@@ -1,0 +1,44 @@
+- name: adding overcloud images to OSPD
+  become: yes
+  become_user: stack
+  shell: source /home/stack/stackrc && openstack overcloud image upload
+  args:
+    chdir: /home/stack/images
+  tags: configure
+
+- name: set mtu to 1500 on ctlplane network
+  become: yes
+  become_user: stack
+  shell: "source /home/stack/stackrc && openstack network set --mtu 1500 ctlplane"
+  args:
+    chdir: /home/stack
+  when: versions.rhosp >= 13
+  tags: configure
+
+- name: Process local CA for undercloud SSL
+  become: yes
+  become_user: stack
+  tags: configure
+  when: ( director_generate_service_certificate is not defined ) or ( director_generate_service_certificate == true and versions.rhosp >= 13 )
+  block:
+    - name: Check to see if local ca file exists
+      stat:
+        path: "{{ director_local_ca_file | default('/etc/pki/ca-trust/source/anchors/cm-local-ca.pem') }}"
+      register: stat_data
+      tags: configure
+
+    - name: Read in CA that is used to for Undercloud SSL services
+      shell: /bin/awk 'BEGIN{display=0};/BEGIN CERTIFICATE/ {display=1}; (display==1) {print "        "$0}; /END CERTIFICATE/ {display=0};' "{{ director_local_ca_file | default('/etc/pki/ca-trust/source/anchors/cm-local-ca.pem') }}"
+      when: stat_data.stat.exists
+      register: ssl_ca_certificate
+      tags: configure
+
+    - name: Generate trust anchor environment file
+      template:
+        src: templates/inject-trust-anchor-hiera.yaml.j2
+        dest: /home/stack/templates/inject-trust-anchor-hiera.yaml
+        owner: stack
+        group: stack
+        mode: 0444
+      when: stat_data.stat.exists
+      tags: configure

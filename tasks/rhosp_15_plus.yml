@@ -21,6 +21,12 @@
     reload: yes
   tags: prep
 
+- name: stop and disable libvirtd
+  service:
+    name: libvirtd
+    state: stopped
+    enabled: false
+
 - name: add stack user and set password
   user:
     name: stack
@@ -147,6 +153,7 @@
     - { key: undercloud_public_host, value: "{{ director_public_ip }}" }
     - { key: undercloud_admin_host, value: "{{ director_admin_apis_vip }}" }
     - { key: enabled_hardware_types, value: "ipmi,redfish,ilo,idrac,staging-ovirt" }
+    - { key: container_images_file, value: "/home/stack/containers-prepare-parameter.yaml" }
   tags: install
 
 - name: set undercloud.conf variables in the ctlplane section
@@ -200,6 +207,18 @@
   args:
     chdir: /home/stack
   tags: install
+
+- name: add Red Hat registry auth creds to container prepare yaml file
+  blockinfile:
+    path: /home/stack/containers-prepare-parameter.yaml
+    state: present
+    insertafter: EOF
+    block: |2
+        ContainerImageRegistryCredentials:
+          registry.redhat.io:
+            {{ content_rh_registry_username }}: {{ content_rh_registry_token }}
+
+- pause:
 
 - name: install the Undercloud
   become: yes

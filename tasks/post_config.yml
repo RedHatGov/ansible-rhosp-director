@@ -78,7 +78,7 @@
     - 'openstack-*'
     - 'neutron-*'
     - 'httpd'
-  when: versions.rhosp <= 13
+  when: versions.rhosp <= 13 and ansible_version.full is version('2.9', '<')
   tags: configure
 
 - name: Configure undercloud for containerized overcloud

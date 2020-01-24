@@ -33,7 +33,7 @@
   tags: prep
 
 - name: set password for stack user
-  cmd: "echo '{{ director_ssh_pwd }}' | passwd stack --stdin"
+  command: "echo '{{ director_ssh_pwd }}' | passwd stack --stdin"
   tags: prep
 
 - name: allow stack user to have passwordless sudo

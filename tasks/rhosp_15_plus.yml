@@ -27,10 +27,13 @@
     state: stopped
     enabled: false
 
-- name: add stack user and set password
+- name: add stack user
   user:
     name: stack
-    password: "{{ director_stack_user_pwd }}"
+  tags: prep
+
+- name: set password for stack user
+  cmd: "echo '{{ director_ssh_pwd }}' | passwd stack --stdin"
   tags: prep
 
 - name: allow stack user to have passwordless sudo

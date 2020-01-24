@@ -30,10 +30,7 @@
 - name: add stack user
   user:
     name: stack
-  tags: prep
-
-- name: set password for stack user
-  command: "echo '{{ director_ssh_pwd }}' | passwd stack --stdin"
+    password: "{{ director_ssh_pwd | password_hash('sha512') }}"
   tags: prep
 
 - name: allow stack user to have passwordless sudo

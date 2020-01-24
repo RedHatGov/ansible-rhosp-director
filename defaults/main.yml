@@ -69,7 +69,6 @@ director_ssh_pwd: p@ssw0rd
 director_register_rhn: true
 director_public_ip: []
 # stack user gets created and will be used for all RHOSP actions on undercloud
-director_stack_user_pwd: []
 director_repos:
   - rhel-7-server-rpms
   - rhel-7-server-extras-rpms

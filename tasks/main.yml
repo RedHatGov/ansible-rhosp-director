@@ -21,7 +21,7 @@
     reload: yes
   tags: prep
 
-- name: add stack user and set password
+- name: add stack user
   user:
     name: stack
   tags: prep

@@ -74,7 +74,7 @@
   lineinfile:
     dest: /etc/ironic-inspector/dnsmasq.conf
     regexp: '^dhcp-option-force=tag:ctlplane-subnet,option:mtu,'
-    line: "dhcp-option-force=tag:ctlplane-subnet,option:mtu,{{ director_provisioning_interface_mtu | default(1500) }}"
+    line: "dhcp-option-force=tag:ctlplane-subnet,option:mtu, 1500"
   when: versions.rhosp == 13
   tags: configure
 

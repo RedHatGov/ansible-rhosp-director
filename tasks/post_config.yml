@@ -70,6 +70,14 @@
   when: versions.rhosp == 10
   tags: configure
 
+- name: Change MTU setting in inspector dnsmasq config
+  lineinfile:
+    dest: /etc/ironic-inspector/dnsmasq.conf
+    regexp: '^dhcp-option-force=tag:ctlplane-subnet,option:mtu,'
+    line: "dhcp-option-force=tag:ctlplane-subnet,option:mtu,{{ director_provisioning_interface_mtu | default(1500) }}"
+  when: versions.rhosp == 13
+  tags: configure
+
 - name: restart openstack services
   service:
     name: "{{ item }}"
@@ -180,3 +188,8 @@
         mode: 0444
       when: stat_data.stat.exists
       tags: configure
+
+- name: Run nova cell discover hosts on undercloud
+  shell: source /home/stack/stackrc && sudo nova-manage cell_v2 discover_hosts
+  when: versions.rhosp <= 13 and ansible_version.full is version('2.9', '<')
+  tags: configure
